@@ -1,17 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+﻿using System.Windows.Controls;
 
 namespace WeatherForecastWPF.Elements
 {
@@ -20,9 +7,16 @@ namespace WeatherForecastWPF.Elements
     /// </summary>
     public partial class DayPartWeatherElement : Page
     {
-        public DayPartWeatherElement()
+        public DayPartWeatherElement(DayPart dayPart)
         {
             InitializeComponent();
+            DayPartNameL.Content = dayPart.Name;
+            TemperatureL.Content = dayPart.Temperature;
+            WeatherL.Content = dayPart.Weather;
+            TensionL.Content = dayPart.Tension;
+            HumidityL.Content = dayPart.Humidity;
+            WindL.Content = dayPart.Wind;
+            FeelTemperatureL.Content = dayPart.FeelTemperature;
         }
     }
 }
