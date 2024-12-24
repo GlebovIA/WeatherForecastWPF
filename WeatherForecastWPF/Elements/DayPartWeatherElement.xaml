@@ -9,7 +9,7 @@
       Height="70">
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="150"/>
+            <ColumnDefinition Width="200"/>
             <ColumnDefinition Width="50"/>
             <ColumnDefinition Width="250"/>
             <ColumnDefinition Width="100"/>

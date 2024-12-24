@@ -55,6 +55,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="Elements\DayElement.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Elements\DayPartWeatherElement.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -66,6 +70,9 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Elements\DayElement.xaml.cs">
+      <DependentUpon>DayElement.xaml</DependentUpon>
     </Compile>
     <Compile Include="Elements\DayPartWeatherElement.xaml.cs">
       <DependentUpon>DayPartWeatherElement.xaml</DependentUpon>
