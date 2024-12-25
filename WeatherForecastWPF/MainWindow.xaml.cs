@@ -25,12 +25,15 @@ namespace WeatherForecastWPF
 		private void ShowForecast(object sender, RoutedEventArgs e)
 		{
 			WeatherData weatherDataClient = new WeatherData();
+
+			LocationKey = CityCB.SelectedIndex == 0 ? WeatherData.PermLocationKey : WeatherData.MoscowLocationKey;
+
 			// Если содержаться все данные, то обращаться к API не нужно (Ограничение на 50 запросов в день)
-			if (File.ReadAllText("../../Files/SavedApiJson.txt") == String.Empty)
+			if (File.ReadAllText("../../Files/SavedApiJson.txt") == String.Empty 
+				|| File.ReadAllText("../../Files/SavedCity.txt") == String.Empty
+				|| Convert.ToInt32(File.ReadAllText("../../Files/SavedCity.txt")) != LocationKey)
 			{
 				Task<string> rawApiData = null;
-
-				LocationKey = CityCB.SelectedIndex == 0 ? WeatherData.PermLocationKey : WeatherData.MoscowLocationKey;
 
 				switch (Period)
 				{
@@ -39,17 +42,23 @@ namespace WeatherForecastWPF
 				}
 
 				StreamWriter streamWriter = new StreamWriter("../../Files/SavedApiJson.txt");
+				StreamWriter streamWriterLocationKey = new StreamWriter("../../Files/SavedCity.txt");
 
 				// Чтение данных
 				var normalizeApiData = rawApiData.Result.ToString();
 
 				// Сохранение в файл
 				streamWriter.WriteLine(normalizeApiData);
+				streamWriterLocationKey.WriteLine(LocationKey);
+
 				streamWriter.Close();
+				streamWriterLocationKey.Close();
 			}
 			// Создание эксземпляра класса с фактическими параметрами
 			string jsonNormalizedApiData = File.ReadAllText("../../Files/SavedApiJson.txt");
 			WeatherJsonParser.ParseWeatherJson(jsonNormalizedApiData, ref AllPeriodWeatherJsonParser);
+
+			Parent.Children.Clear();
 
 			foreach(List<WeatherJsonParser> list in AllPeriodWeatherJsonParser)
 			{
