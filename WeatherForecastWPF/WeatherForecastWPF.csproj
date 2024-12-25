@@ -97,7 +97,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Classes\JsonParser.cs" />
+    <Compile Include="Classes\WeatherJsonParser.cs" />
     <Compile Include="Classes\WeatherData.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>

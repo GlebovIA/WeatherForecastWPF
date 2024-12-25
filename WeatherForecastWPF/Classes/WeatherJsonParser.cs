@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace WeatherForecastWPF.Classes
 {
-	public class JsonParser
+	public class WeatherJsonParser
 	{
 
 	}
