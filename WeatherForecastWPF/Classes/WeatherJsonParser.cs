@@ -20,7 +20,7 @@ namespace WeatherForecastWPF.Classes
 		public double? Humidity { get; set; }
 		public string UVIndex { get; set; }
 		public WeatherJsonParser() { }
-		public WeatherJsonParser(JToken periodData, string sity, string periodName)
+		public WeatherJsonParser(JToken periodData, string periodState, string sity, string periodName)
 		{
 			if (periodData == null)
 			{
@@ -34,28 +34,29 @@ namespace WeatherForecastWPF.Classes
 
             PeriodName = periodName;
 
-			Temperature = (periodData["Temperature"]?["Minimum"]?["Value"]?.ToObject<double>() + periodData["Temperature"]?["Maximum"]?["Value"]?.ToObject<double>()) / 2;
+			Temperature = periodData["Temperature"]?["Minimum"]?["Value"]?.ToObject<double>();
 
 			// Извлечение ощущаемой температуры
-			FeelTemperature = (periodData["RealFeelTemperatureShade"]?["Minimum"]?["Value"]?.ToObject<double>() + periodData["RealFeelTemperatureShade"]?["Maximum"]?["Value"]?.ToObject<double>()) / 2;
+			FeelTemperature = periodData["RealFeelTemperatureShade"]?["Minimum"]?["Value"]?.ToObject<double>();
 
 			// Извлечение облачности
-			Cloudy = periodData["IconPhrase"]?.ToObject<string>();
+			Cloudy = periodData?[periodState]?["IconPhrase"]?.ToObject<string>();
 
 			// Извлечение скорости и направления ветра
-			WindSpeed = periodData["Wind"]?["Speed"]?["Value"]?.ToObject<double>();
-			WindDirection = periodData["Wind"]?["Direction"]?["Localized"]?.ToString();
+			WindSpeed = periodData?[periodState]?["Wind"]?["Speed"]?["Value"]?.ToObject<double>();
+			WindDirection = periodData?[periodState]?["Wind"]?["Direction"]?["Localized"]?.ToString();
 
 			// Извлечение влажности
-			Humidity = periodData["RelativeHumidity"]?["Average"].ToObject<double>();
+			Humidity = periodData?[periodState]?["RelativeHumidity"]?["Average"].ToObject<double>();
 
 			// Извлечение УФ-индекса
-			UVIndex = periodData["AirAndPollen"]?[5]?["Value"]?.ToObject<string>();
+			UVIndex = periodData?["AirAndPollen"]?[5]?["Category"]?.ToObject<string>();
 		}
 		public static void ParseWeatherJson(string Json, ref List<List<WeatherJsonParser>> Weather)
 		{
 			try
 			{
+				Weather.Clear();
 				// Парсинг JSON
 				var jsonObject = JObject.Parse(Json);
 				var dailyForecast = jsonObject["DailyForecasts"];
@@ -67,10 +68,10 @@ namespace WeatherForecastWPF.Classes
 						List<WeatherJsonParser> dailyJsonParser = new List<WeatherJsonParser>();
 						// Извлечение данных для дня
 						Console.WriteLine("Данные для дня:");
-						dailyJsonParser.Add(new WeatherJsonParser(dayForecast["Day"], "Пермь", "День"));
+						dailyJsonParser.Add(new WeatherJsonParser(dayForecast, "Day", "Пермь", "День"));
 						// Извлечение данных для ночи
 						Console.WriteLine("\nДанные для ночи:");
-						dailyJsonParser.Add(new WeatherJsonParser(dayForecast["Night"], "Пермь", "Ночь"));
+						dailyJsonParser.Add(new WeatherJsonParser(dayForecast, "Night", "Пермь", "Ночь"));
 						// Передача суточной информации
 						Weather.Add(dailyJsonParser);
 					}

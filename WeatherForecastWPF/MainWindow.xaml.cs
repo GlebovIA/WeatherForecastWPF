@@ -26,7 +26,7 @@ namespace WeatherForecastWPF
 		{
 			WeatherData weatherDataClient = new WeatherData();
 			// Если содержаться все данные, то обращаться к API не нужно (Ограничение на 50 запросов в день)
-			if (File.ReadAllLines("../../Files/SavedApiJson.txt").Length == 0)
+			if (File.ReadAllText("../../Files/SavedApiJson.txt") == String.Empty)
 			{
 				Task<string> rawApiData = null;
 
