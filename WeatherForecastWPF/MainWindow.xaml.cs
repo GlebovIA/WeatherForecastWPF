@@ -23,10 +23,6 @@ namespace WeatherForecastWPF
 		}
 		private void ShowForecast(object sender, RoutedEventArgs e)
 		{
-			// Если не выбран город, то код не выполнится
-			if (LocationKey == -1)
-				return;
-
 			WeatherData weatherDataClient = new WeatherData();
 			// Если содержаться все данные, то обращаться к API не нужно (Ограничение на 50 запросов в день)
 			if (File.ReadAllLines("../../Files/SavedApiJson.txt").Length == 0)

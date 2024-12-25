@@ -1,4 +1,5 @@
 ﻿using System.Windows.Controls;
+using WeatherForecastWPF.Models;
 
 namespace WeatherForecastWPF.Elements
 {
