@@ -13,6 +13,11 @@
             <ComboBoxItem Content="Пермь"/>
             <ComboBoxItem Content="Москва"/>
         </ComboBox>
+        <Label Content="Период" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0, 10, 600, 0"/>
+        <ComboBox x:Name="PeriodCB" SelectedIndex="0" Width="200" Height="30" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0, 10, 400, 0">
+            <ComboBoxItem Content="1 день"/>
+            <ComboBoxItem Content="5 дней"/>
+        </ComboBox>
         <Button Click="ShowForecast" Content="Показать" Width="100" Height="30" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="10"/>
         <ScrollViewer VerticalScrollBarVisibility="Hidden" Margin="10, 50, 10, 10">
             <StackPanel x:Name="Parent"/>

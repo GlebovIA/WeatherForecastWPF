@@ -27,9 +27,10 @@ namespace WeatherForecastWPF
 			WeatherData weatherDataClient = new WeatherData();
 
 			LocationKey = CityCB.SelectedIndex == 0 ? WeatherData.PermLocationKey : WeatherData.MoscowLocationKey;
+            Period = PeriodCB.SelectedIndex == 0 ? 1 : 5;
 
-			// Если содержаться все данные, то обращаться к API не нужно (Ограничение на 50 запросов в день)
-			if (File.ReadAllText("../../Files/SavedApiJson.txt") == String.Empty 
+            // Если содержаться все данные, то обращаться к API не нужно (Ограничение на 50 запросов в день)
+            if (File.ReadAllText("../../Files/SavedApiJson.txt") == String.Empty 
 				|| File.ReadAllText("../../Files/SavedCity.txt") == String.Empty
 				|| Convert.ToInt32(File.ReadAllText("../../Files/SavedCity.txt")) != LocationKey)
 			{
