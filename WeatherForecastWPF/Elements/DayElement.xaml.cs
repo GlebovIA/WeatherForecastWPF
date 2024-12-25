@@ -13,20 +13,16 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace WeatherForecastWPF
+namespace WeatherForecastWPF.Elements
 {
     /// <summary>
-    /// Логика взаимодействия для MainWindow.xaml
+    /// Логика взаимодействия для DayElement.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class DayElement : Page
     {
-        public MainWindow()
+        public DayElement(Day day)
         {
             InitializeComponent();
-        }
-
-        private void ShowForecast(object sender, RoutedEventArgs e)
-        {
 
         }
     }
