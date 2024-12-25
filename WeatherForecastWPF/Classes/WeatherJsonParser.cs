@@ -29,7 +29,7 @@ namespace WeatherForecastWPF.Classes
 			}
 			Sity = sity;
 
-			PeriodDate = periodData["Date"].ToObject<string>();
+			PeriodDate = periodData["Date"]?.ToString();
 
 
             PeriodName = periodName;

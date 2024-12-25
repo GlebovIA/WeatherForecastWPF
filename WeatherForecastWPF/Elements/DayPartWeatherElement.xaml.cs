@@ -8,7 +8,7 @@ namespace WeatherForecastWPF.Elements
     /// <summary>
     /// Логика взаимодействия для DayPartWeatherElement.xaml
     /// </summary>
-    public partial class DayPartWeatherElement : Page
+    public partial class DayPartWeatherElement : UserControl
     {
         public DayPartWeatherElement(WeatherJsonParser DayPart)
         {
@@ -21,7 +21,7 @@ namespace WeatherForecastWPF.Elements
             FeelTemperatureL.Content = DayPart.FeelTemperature;
             if (DayPart.Cloudy.Contains("облачно"))
             {
-                Image.Source = new BitmapImage(new System.Uri("/WeatherForecastWPF;component/Images/Cloud.png"));
+                Image.Source = new BitmapImage(new System.Uri("../../Images/Cloud.png", System.UriKind.RelativeOrAbsolute));
             }
         }
     }

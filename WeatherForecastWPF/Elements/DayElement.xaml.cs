@@ -19,7 +19,7 @@ namespace WeatherForecastWPF.Elements
     /// <summary>
     /// Логика взаимодействия для DayElement.xaml
     /// </summary>
-    public partial class DayElement : Page
+    public partial class DayElement : UserControl
     {
         public DayElement(List<WeatherJsonParser> Day)
         {
