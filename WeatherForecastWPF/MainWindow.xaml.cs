@@ -20,20 +20,32 @@ namespace WeatherForecastWPF
 		public MainWindow()
 		{
 			InitializeComponent();
+		}
+		private void ShowForecast(object sender, RoutedEventArgs e)
+		{
+			// Если не выбран город, то код не выполнится
+			if (LocationKey == -1)
+				return;
+
 			WeatherData weatherDataClient = new WeatherData();
 			// Если содержаться все данные, то обращаться к API не нужно (Ограничение на 50 запросов в день)
 			if (File.ReadAllLines("../../Files/SavedApiJson.txt").Length == 0)
 			{
 				Task<string> rawApiData = null;
 
+				LocationKey = CityCB.SelectedIndex == 0 ? WeatherData.PermLocationKey : WeatherData.MoscowLocationKey;
+
 				switch (Period)
 				{
 					case 1: rawApiData = weatherDataClient.GetWeatherData(WeatherData.OneDayKey, LocationKey); break;
 					case 5: rawApiData = weatherDataClient.GetWeatherData(WeatherData.FiveDayKey, LocationKey); break;
 				}
+
 				StreamWriter streamWriter = new StreamWriter("../../Files/SavedApiJson.txt");
+
 				// Чтение данных
 				var normalizeApiData = rawApiData.Result.ToString();
+
 				// Сохранение в файл
 				streamWriter.WriteLine(normalizeApiData);
 				streamWriter.Close();
