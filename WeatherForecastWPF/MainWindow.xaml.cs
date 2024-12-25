@@ -24,5 +24,10 @@ namespace WeatherForecastWPF
         {
             InitializeComponent();
         }
+
+        private void ShowForecast(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }
