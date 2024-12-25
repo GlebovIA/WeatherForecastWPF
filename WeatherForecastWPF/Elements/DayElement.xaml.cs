@@ -20,9 +20,10 @@ namespace WeatherForecastWPF.Elements
     /// </summary>
     public partial class DayElement : Page
     {
-        public DayElement()
+        public DayElement(Day day)
         {
             InitializeComponent();
+
         }
     }
 }
