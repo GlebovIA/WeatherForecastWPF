@@ -10,7 +10,8 @@ namespace WeatherForecastWPF.Classes
 	public class WeatherJsonParser
 	{
 		public string Sity { get; set; }
-		public string PeriodName { get; set; }
+        public string PeriodDate { get; set; }
+        public string PeriodName { get; set; }
 		public double? Temperature { get; set; }
 		public double? FeelTemperature { get; set; }
 		public string Cloudy { get; set; }
@@ -28,12 +29,15 @@ namespace WeatherForecastWPF.Classes
 			}
 			Sity = sity;
 
-			PeriodName = periodName;
+			PeriodDate = periodData["Date"].ToObject<string>();
 
-			Temperature = periodData["Temperature"]?["Average"]?["Value"]?.ToObject<double>();
+
+            PeriodName = periodName;
+
+			Temperature = (periodData["Temperature"]?["Minimum"]?["Value"]?.ToObject<double>() + periodData["Temperature"]?["Maximum"]?["Value"]?.ToObject<double>()) / 2;
 
 			// Извлечение ощущаемой температуры
-			FeelTemperature = periodData["RealFeelTemperatureShade"]?["Value"]?.ToObject<double>();
+			FeelTemperature = (periodData["RealFeelTemperatureShade"]?["Minimum"]?["Value"]?.ToObject<double>() + periodData["RealFeelTemperatureShade"]?["Maximum"]?["Value"]?.ToObject<double>()) / 2;
 
 			// Извлечение облачности
 			Cloudy = periodData["IconPhrase"]?.ToObject<string>();
@@ -46,7 +50,7 @@ namespace WeatherForecastWPF.Classes
 			Humidity = periodData["RelativeHumidity"]?["Average"].ToObject<double>();
 
 			// Извлечение УФ-индекса
-			UVIndex = periodData["AirAndPollen"]?.FirstOrDefault(p => p["Name"]?.ToString() == "UVIndexText")?["Value"]?.ToObject<string>();
+			UVIndex = periodData["AirAndPollen"]?[5]?["Value"]?.ToObject<string>();
 		}
 		public static void ParseWeatherJson(string Json, ref List<List<WeatherJsonParser>> Weather)
 		{

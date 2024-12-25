@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using WeatherForecastWPF.Classes;
 
 namespace WeatherForecastWPF.Elements
 {
@@ -20,10 +21,15 @@ namespace WeatherForecastWPF.Elements
     /// </summary>
     public partial class DayElement : Page
     {
-        public DayElement()
+        public DayElement(List<WeatherJsonParser> Day)
         {
             InitializeComponent();
-
+            DateL.Content = Day[0].PeriodDate;
+            if (Day[0].PeriodDate == DateTime.Now.Date.ToString("yyyy-MM-dd"))
+                TodayL.Content = "сегодня";
+            UVIndexL.Content = Day[0].UVIndex;
+            DayElementsSP.Children.Add(new DayPartWeatherElement(Day[0]));
+            DayElementsSP.Children.Add(new DayPartWeatherElement(Day[1]));
         }
     }
 }

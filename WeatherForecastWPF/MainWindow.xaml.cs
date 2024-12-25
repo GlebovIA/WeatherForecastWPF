@@ -6,6 +6,7 @@ using WeatherForecastWPF.Classes;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Diagnostics;
+using WeatherForecastWPF.Elements;
 
 namespace WeatherForecastWPF
 {
@@ -49,6 +50,11 @@ namespace WeatherForecastWPF
 			// Создание эксземпляра класса с фактическими параметрами
 			string jsonNormalizedApiData = File.ReadAllText("../../Files/SavedApiJson.txt");
 			WeatherJsonParser.ParseWeatherJson(jsonNormalizedApiData, ref AllPeriodWeatherJsonParser);
+
+			foreach(List<WeatherJsonParser> list in AllPeriodWeatherJsonParser)
+			{
+				Parent.Children.Add(new DayElement(list));
+			}
 		}
 	}
 }

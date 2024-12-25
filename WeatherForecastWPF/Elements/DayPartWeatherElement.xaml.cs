@@ -1,5 +1,7 @@
-﻿using System.Windows.Controls;
-using WeatherForecastWPF.Models;
+﻿using System.Linq;
+using System.Windows.Controls;
+using System.Windows.Media.Imaging;
+using WeatherForecastWPF.Classes;
 
 namespace WeatherForecastWPF.Elements
 {
@@ -8,16 +10,19 @@ namespace WeatherForecastWPF.Elements
     /// </summary>
     public partial class DayPartWeatherElement : Page
     {
-        public DayPartWeatherElement(DayPart dayPart)
+        public DayPartWeatherElement(WeatherJsonParser DayPart)
         {
             InitializeComponent();
-            DayPartNameL.Content = dayPart.Name;
-            TemperatureL.Content = dayPart.Temperature;
-            WeatherL.Content = dayPart.Weather;
-            TensionL.Content = dayPart.Tension;
-            HumidityL.Content = dayPart.Humidity;
-            WindL.Content = dayPart.Wind;
-            FeelTemperatureL.Content = dayPart.FeelTemperature;
+            DayPartNameL.Content = DayPart.PeriodName;
+            TemperatureL.Content = DayPart.Temperature;
+            CloudyL.Content = DayPart.Cloudy;
+            HumidityL.Content = DayPart.Humidity;
+            WindL.Content = DayPart.WindSpeed + " " + DayPart.WindDirection;
+            FeelTemperatureL.Content = DayPart.FeelTemperature;
+            if (DayPart.Cloudy.Contains("облачно"))
+            {
+                Image.Source = new BitmapImage(new System.Uri("/WeatherForecastWPF;component/Images/Cloud.png"));
+            }
         }
     }
 }
