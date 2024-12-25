@@ -9,6 +9,5 @@ namespace WeatherForecastWPF.Models
     public class Forecast
     {
         public List<DayPart> Today = new List<DayPart>();
-        public List<DayPart> Week = 
     }
 }
