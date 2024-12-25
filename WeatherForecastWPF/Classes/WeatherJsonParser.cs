@@ -7,6 +7,10 @@ namespace WeatherForecastWPF.Classes
 {
 	public class WeatherJsonParser
 	{
+		public WeatherJsonParser(string Json)
+		{
+			var jsonObject = JObject.Parse(Json);
 
+		}
 	}
 }
