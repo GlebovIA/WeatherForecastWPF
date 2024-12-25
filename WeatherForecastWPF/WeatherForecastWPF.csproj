@@ -89,6 +89,14 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="Elements\DayElement.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Elements\DayPartWeatherElement.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -99,6 +107,12 @@
     </Compile>
     <Compile Include="Classes\WeatherJsonParser.cs" />
     <Compile Include="Classes\WeatherData.cs" />
+    <Compile Include="Elements\DayElement.xaml.cs">
+      <DependentUpon>DayElement.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Elements\DayPartWeatherElement.xaml.cs">
+      <DependentUpon>DayPartWeatherElement.xaml</DependentUpon>
+    </Compile>
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -135,6 +149,19 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Files\SavedApiJson.txt" />
+    <Resource Include="Images\SunWithCloud.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Cloud.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Snow.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Sun.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Rain.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
