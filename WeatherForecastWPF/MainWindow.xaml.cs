@@ -25,7 +25,8 @@ namespace WeatherForecastWPF
 				var normalizeApiData = rawApiData.Result.ToString();
 				// Сохранение в файл
 				StreamWriter streamWriter = new StreamWriter(@"C:\Users\user\Desktop\Weather\WeatherForecastWPF\Files\SavedApiJson.txt");
-				streamWriter.Write(normalizeApiData);
+				streamWriter.WriteLine(normalizeApiData);
+				streamWriter.Close();
 			}
 			// Создание эксземпляра класса с фактическими параметрами
 			string jsonNormalizedApiData= File.ReadAllText(@"C:\Users\user\Desktop\Weather\WeatherForecastWPF\Files\SavedApiJson.txt");
