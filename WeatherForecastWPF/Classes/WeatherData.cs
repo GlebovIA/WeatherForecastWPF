@@ -5,7 +5,7 @@ namespace WeatherForecastWPF.Classes
 {
 	public class WeatherData
 	{
-		public string ApiKey = "tDZyrBCCajFnMNTpoOSPtaVlAAEDL8Zb";
+		public string ApiKey = "GaEDdqRrmwA3VAqEEpNoHKGWpJKEtvRv";
 		public string LanguageKey = "ru";
 		public int PermLocationKey = 294922;
 		public int MoscowLocationKey = 294021;
