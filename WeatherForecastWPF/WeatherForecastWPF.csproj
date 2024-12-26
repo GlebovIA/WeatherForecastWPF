@@ -143,7 +143,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Files\SavedApiJson.txt" />
+    <Resource Include="Files\SavedApiJsonFiveDaysPerm.txt" />
     <Resource Include="Images\SunWithCloud.png" />
   </ItemGroup>
   <ItemGroup>
@@ -160,6 +160,18 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Files\SavedCity.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Files\LastApiRequestTime.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Files\SavedApiJsonOneDaysPerm.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Files\SavedApiJsonFiveDaysMoscow.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Files\SavedApiJsonOneDaysMoscow.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

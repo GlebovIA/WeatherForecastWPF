@@ -1,4 +1,5 @@
-﻿using System.Net.Http;
+﻿using System.Diagnostics;
+using System.Net.Http;
 using System.Threading.Tasks;
 
 namespace WeatherForecastWPF.Classes
@@ -29,6 +30,8 @@ namespace WeatherForecastWPF.Classes
 		}
 		private async Task<HttpResponseMessage> SendWeatherRequest(string Url, int LocationKey)
 		{
+			Debug.WriteLine("Подтянул с API");
+
 			// HttpClient
 			HttpClient httpClient = new HttpClient();
 			// Параметры запроса

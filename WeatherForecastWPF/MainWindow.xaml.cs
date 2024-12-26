@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Diagnostics;
 using WeatherForecastWPF.Elements;
+using System.Text.Json;
 
 namespace WeatherForecastWPF
 {
@@ -17,6 +18,7 @@ namespace WeatherForecastWPF
 	{
 		public static int Period = 5;
 		public static int LocationKey = -1;
+        public bool IsNeedApi = false;
 		List<List<WeatherJsonParser>> AllPeriodWeatherJsonParser = new List<List<WeatherJsonParser>>();
 		public MainWindow()
 		{
@@ -25,46 +27,64 @@ namespace WeatherForecastWPF
 		private void ShowForecast(object sender, RoutedEventArgs e)
 		{
 			WeatherData weatherDataClient = new WeatherData();
+            string filePath = "";
 
-			LocationKey = CityCB.SelectedIndex == 0 ? WeatherData.PermLocationKey : WeatherData.MoscowLocationKey;
+            LocationKey = CityCB.SelectedIndex == 0 ? WeatherData.PermLocationKey : WeatherData.MoscowLocationKey;
             Period = PeriodCB.SelectedIndex == 0 ? 1 : 5;
 
-            // Если содержаться все данные, то обращаться к API не нужно (Ограничение на 50 запросов в день)
-            if (File.ReadAllText("../../Files/SavedApiJson.txt") == String.Empty 
-				|| File.ReadAllText("../../Files/SavedCity.txt") == String.Empty
-				|| Convert.ToInt32(File.ReadAllText("../../Files/SavedCity.txt")) != LocationKey)
+            // Если срок последнего обращения не найден или превышает 30 минут, то нужно обратиться к API
+			if (File.ReadAllText("../../Files/LastApiRequestTime.txt") == String.Empty
+				|| (DateTime.Now.Subtract((DateTime.Parse(File.ReadAllText("../../Files/LastApiRequestTime.txt")))) > TimeSpan.FromMinutes(30)))
 			{
-				Task<string> rawApiData = null;
+                IsNeedApi = true;
+            }
 
-				switch (Period)
-				{
-					case 1: rawApiData = weatherDataClient.GetWeatherData(WeatherData.OneDayKey, LocationKey); break;
-					case 5: rawApiData = weatherDataClient.GetWeatherData(WeatherData.FiveDayKey, LocationKey); break;
-				}
+            if (Period == 1 && LocationKey == WeatherData.PermLocationKey) filePath = "../../Files/SavedApiJsonOneDaysPerm.txt";
+            else if (Period == 1 && LocationKey == WeatherData.MoscowLocationKey) filePath = "../../Files/SavedApiJsonOneDaysMoscow.txt";
+            else if (Period == 5 && LocationKey == WeatherData.PermLocationKey) filePath = "../../Files/SavedApiJsonFiveDaysPerm.txt";
+            else if (Period == 5 && LocationKey == WeatherData.MoscowLocationKey) filePath = "../../Files/SavedApiJsonFiveDaysMoscow.txt";
 
-				StreamWriter streamWriter = new StreamWriter("../../Files/SavedApiJson.txt");
-				StreamWriter streamWriterLocationKey = new StreamWriter("../../Files/SavedCity.txt");
+            // Если сохраненных данные не оказалось, то нужно обратиться к API
+            if (File.ReadAllText(filePath) == String.Empty)
+            {
+                IsNeedApi = true;
+            }
+            
+            if (IsNeedApi)
+            {
+                IsNeedApi = !IsNeedApi;
+                Task<string> rawApiData = null;
 
-				// Чтение данных
-				var normalizeApiData = rawApiData.Result.ToString();
+                switch (Period)
+                {
+                    case 1: rawApiData = weatherDataClient.GetWeatherData(WeatherData.OneDayKey, LocationKey); break;
+                    case 5: rawApiData = weatherDataClient.GetWeatherData(WeatherData.FiveDayKey, LocationKey); break;
+                }
 
-				// Сохранение в файл
-				streamWriter.WriteLine(normalizeApiData);
-				streamWriterLocationKey.WriteLine(LocationKey);
+                StreamWriter streamWriter = new StreamWriter(filePath);
+                StreamWriter streamWriterLastTimeRequest = new StreamWriter("../../Files/LastApiRequestTime.txt");
 
-				streamWriter.Close();
-				streamWriterLocationKey.Close();
-			}
-			// Создание эксземпляра класса с фактическими параметрами
-			string jsonNormalizedApiData = File.ReadAllText("../../Files/SavedApiJson.txt");
-			WeatherJsonParser.ParseWeatherJson(jsonNormalizedApiData, ref AllPeriodWeatherJsonParser);
+                // Чтение данных
+                var normalizeApiData = rawApiData.Result.ToString();
 
-			Parent.Children.Clear();
+                // Сохранение в файл
+                streamWriter.WriteLine(normalizeApiData);
+                streamWriterLastTimeRequest.WriteLine(DateTime.Now);
 
-			foreach(List<WeatherJsonParser> list in AllPeriodWeatherJsonParser)
-			{
-				Parent.Children.Add(new DayElement(list));
-			}
-		}
+                streamWriter.Close();
+                streamWriterLastTimeRequest.Close();
+            }
+
+            // Создание эксземпляра класса с фактическими параметрами
+            string jsonNormalizedApiData = File.ReadAllText(filePath);
+            WeatherJsonParser.ParseWeatherJson(jsonNormalizedApiData, ref AllPeriodWeatherJsonParser);
+
+            Parent.Children.Clear();
+
+            foreach (List<WeatherJsonParser> list in AllPeriodWeatherJsonParser)
+            {
+                Parent.Children.Add(new DayElement(list));
+            }
+        }
 	}
 }
